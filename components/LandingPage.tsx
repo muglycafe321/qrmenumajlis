@@ -19,7 +19,7 @@ export default function LandingPage() {
       <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/60 to-black/90" />
 
       {/* Content Container */}
-      <div className="relative z-10 h-full flex flex-col justify-center px-6 md:px-12 lg:px-24">
+      <div className="relative z-10 h-full flex flex-col justify-center px-6 md:px-12 lg:px-24 pb-32">
         {/* Top Section - Centered vertically */}
         <div className="animate-fadeUp max-w-4xl">
           {/* Restaurant Name & Tagline */}
@@ -37,16 +37,8 @@ export default function LandingPage() {
             Every Meal Tells a Story
           </p>
 
-          {/* CTA Button - iOS Style */}
-          <button
-            onClick={() => router.push('/menu')}
-            className="mt-8 px-10 py-4 bg-gradient-to-r from-[#D4A853] to-[#F0C97A] text-[#0B0A0E] rounded-full font-bold text-lg shadow-lg shadow-[#D4A853]/40 hover:shadow-[#D4A853]/60 hover:scale-105 transition-all duration-300"
-          >
-            🍽 Explore Menu
-          </button>
-
           {/* Info Row - iOS Style Cards */}
-          <div className="flex flex-wrap gap-3 mt-12">
+          <div className="flex flex-wrap gap-3 mt-8">
             <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 py-3 rounded-xl border border-white/20">
               <span className="text-[#D4A853]">📍</span>
               <span className="text-white text-sm">Near Govt Hospital, Kuthuparamba</span>
@@ -60,6 +52,18 @@ export default function LandingPage() {
               <span className="text-white text-sm">98956 89218</span>
             </div>
           </div>
+        </div>
+      </div>
+
+      {/* Fixed CTA Button at Bottom */}
+      <div className="fixed bottom-0 left-0 right-0 z-20 p-6 bg-gradient-to-t from-black/90 to-transparent">
+        <div className="max-w-4xl mx-auto">
+          <button
+            onClick={() => router.push('/menu')}
+            className="w-full md:w-auto px-10 py-4 bg-gradient-to-r from-[#D4A853] to-[#F0C97A] text-[#0B0A0E] rounded-full font-bold text-lg shadow-lg shadow-[#D4A853]/40 hover:shadow-[#D4A853]/60 hover:scale-[1.02] transition-all duration-300"
+          >
+            🍽 Explore Menu
+          </button>
         </div>
       </div>
     </div>
