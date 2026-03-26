@@ -373,3 +373,103 @@ html {
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }
+/* ======================================== */
+/* LANDING PAGE PREMIUM STYLES */
+/* ======================================== */
+
+/* Fixed CTA Container at Bottom */
+.lp-cta-fixed {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  padding: 0 20px 32px;
+  background: linear-gradient(to top,
+    rgba(11,10,14,0.98) 0%,
+    rgba(11,10,14,0.7) 70%,
+    transparent 100%);
+  opacity: 0;
+  animation: slideUpCta 0.8s ease forwards 1.2s;
+}
+
+@keyframes slideUpCta {
+  from { 
+    opacity: 0; 
+    transform: translateY(30px); 
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0); 
+  }
+}
+
+/* Main CTA Button */
+.lp-btn-main {
+  width: 100%;
+  background: linear-gradient(135deg, #D4A853 0%, #F0C97A 50%, #D4A853 100%);
+  background-size: 200% auto;
+  color: #0B0A0E;
+  border: none;
+  border-radius: 16px;
+  font-family: 'Nunito', sans-serif;
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 18px 24px;
+  cursor: pointer;
+  box-shadow: 0 8px 32px rgba(212,168,83,0.5),
+              0 2px 8px rgba(0,0,0,0.3);
+  transition: background-position 0.4s ease,
+              transform 0.2s ease,
+              box-shadow 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  animation: glowPulse 3s ease-in-out infinite;
+}
+
+.lp-btn-main:hover {
+  background-position: right center;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 40px rgba(212,168,83,0.65);
+}
+
+.lp-btn-main:active {
+  transform: translateY(0);
+}
+
+/* Button Icon */
+.lp-btn-icon {
+  font-size: 20px;
+  animation: wiggle 2s ease-in-out infinite;
+}
+
+@keyframes wiggle {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(-8deg); }
+  75% { transform: rotate(8deg); }
+}
+
+/* Info Row - Pill Shaped Chips */
+.lp-info-row {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+
+.lp-info-row span {
+  font-size: 11px;
+  color: rgba(237,227,213,0.65);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(255,255,255,0.06);
+  padding: 4px 10px;
+  border-radius: 20px;
+  border: 1px solid rgba(212,168,83,0.15);
+}
