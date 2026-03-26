@@ -473,3 +473,19 @@ html {
   border-radius: 20px;
   border: 1px solid rgba(212,168,83,0.15);
 }
+/* ======================================== */
+/* CATEGORY HEADING STYLES */
+/* ======================================== */
+
+.category-heading {
+  font-weight: 700;
+  line-height: 1.2;
+  text-align: center;
+}
+
+/* Mobile: smaller minimum size */
+@media (max-width: 640px) {
+  .category-heading {
+    font-size: 24px !important;
+  }
+}
