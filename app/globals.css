@@ -726,7 +726,7 @@ html {
 
 /* corner accent top-right */
 .fc-card::after {
-  content: '?';
+  content: 'âœ¦';
   position: absolute;
   top: 10px; right: 14px;
   color: var(--accent);
@@ -785,7 +785,7 @@ html {
   50%       { box-shadow: 0 4px 16px rgba(192,57,43,0.7); }
 }
 
-/* OFFER ITEMS GRID — 3 cards side by side */
+/* OFFER ITEMS GRID - 3 cards side by side */
 .fc-rows {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
