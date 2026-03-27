@@ -10,36 +10,30 @@ export default function SpecialOfferBanner({ offers }: SpecialOfferBannerProps) 
   if (!offers || offers.length === 0) return null
 
   return (
-    <div className="special-section">
-      {/* Section Header */}
-      <div className="special-header">
-        <div className="special-title-wrapper">
-          <span className="special-icon">🔥</span>
-          <div>
-            <h2 className="special-title">Majlis Special</h2>
-            <p className="special-subtitle">Exclusive deals just for you</p>
+    <div className="fc-block">
+      <div className="fc-card">
+        <div className="fc-head">
+          <span className="fc-icon">🥘</span>
+          <div className="fc-title-wrap">
+            <span className="fc-title">Majlis Special</span>
+            <span className="fc-subtitle">Exclusive deals just for you</span>
           </div>
+          <span className="fc-badge">🔥 Special</span>
         </div>
-        <span className="special-badge">🔥 Special</span>
-      </div>
 
-      {/* Offer Cards */}
-      <div className="special-cards">
-        {offers.map((offer, index) => (
-          <div
-            key={offer.id ?? `offer-${index}`}
-            className="special-card"
-          >
-            {/* Card Badge */}
-            <span className="card-badge">🔥</span>
-            
-            {/* Card Content */}
-            <div className="card-content">
-              <h3 className="card-name">{offer.name}</h3>
-              <p className="card-price">₹{offer.price}</p>
+        <div className="fc-rows">
+          {offers.map((item, i) => (
+            <div className="fc-row" key={item.id ?? `offer-${i}`}>
+              <span className="fc-name">{item.name}</span>
+              <span className="fc-price">
+                <sup>₹</sup>{item.price === 0 
+                  ? <span style={{ fontSize: '12px' }}>Market Price</span>
+                  : item.price
+                }
+              </span>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </div>
   )
