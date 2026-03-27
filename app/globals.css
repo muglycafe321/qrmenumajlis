@@ -847,3 +847,147 @@ html {
     grid-template-columns: repeat(2, 1fr);
   }
 }
+/* ======================================== */
+/* COMPACT MENU ITEM ROWS */
+/* ======================================== */
+
+.menu-section {
+  padding: 20px 16px 12px;
+  border-bottom: 1px solid rgba(212,168,83,0.07);
+}
+
+.sec-head {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 18px;
+  text-align: center;
+}
+
+.sec-ornament {
+  color: var(--gold);
+  font-size: 13px;
+  opacity: 0.7;
+}
+
+.sec-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 26px;
+  font-weight: 700;
+  font-style: italic;
+  color: var(--gold);
+  letter-spacing: 0.02em;
+}
+
+.sec-line { display: none; }
+
+/* Items wrapper */
+.menu-items-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* Single item row */
+.menu-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 14px;
+  border-radius: 10px;
+  margin: 2px 0;
+  background: rgba(212,168,83,0.04);
+  border: 1px solid rgba(212,168,83,0.1);
+  transition: background 0.2s, border-color 0.2s, transform 0.15s;
+  cursor: default;
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.menu-item.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.menu-item:hover {
+  background: rgba(212,168,83,0.09);
+  border-color: rgba(212,168,83,0.25);
+  transform: translateX(3px);
+}
+
+/* Veg / Non-veg dot */
+.dot {
+  flex-shrink: 0;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  box-shadow: 0 0 4px currentColor;
+}
+
+.dot.veg {
+  background: var(--veg);
+  box-shadow: 0 0 5px rgba(46,125,50,0.6);
+}
+
+.dot.nonveg {
+  background: var(--nonveg);
+  box-shadow: 0 0 5px rgba(183,28,28,0.6);
+}
+
+/* Item name */
+.iname {
+  font-family: 'Nunito', sans-serif;
+  font-size: 14.5px;
+  font-weight: 500;
+  color: var(--text);
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  letter-spacing: 0.01em;
+}
+
+/* Dotted line */
+.idots {
+  flex: 1;
+  height: 1px;
+  border-bottom: 1.5px dotted rgba(212,168,83,0.2);
+  min-width: 16px;
+  max-width: 120px;
+}
+
+/* Price */
+.iprice {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--gold-light);
+  white-space: nowrap;
+  flex-shrink: 0;
+  letter-spacing: 0.01em;
+}
+
+.iprice sup {
+  font-size: 11px;
+  font-weight: 600;
+  vertical-align: super;
+  color: var(--gold);
+}
+
+.iprice.market {
+  font-family: 'Nunito', sans-serif;
+  font-size: 11px;
+  color: var(--muted);
+  font-style: italic;
+  font-weight: 400;
+}
+
+/* Alternating subtle row tint */
+.menu-item:nth-child(even) {
+  background: rgba(212,168,83,0.02);
+}
+
+.menu-item:nth-child(even):hover {
+  background: rgba(212,168,83,0.08);
+}

@@ -12,27 +12,20 @@ interface MenuSectionProps {
 
 export default function MenuSection({ category, label, items, categoryType }: MenuSectionProps) {
   return (
-    <section id={category} className="scroll-pt-20 mb-12 animate-fadeUp">
-      <div className="section-ornament">
-        <h2 
-          className="font-bold text-gradient italic category-heading"
-          style={{ 
-            fontSize: 'clamp(24px, 5vw, 48px)',
-            marginBottom: '1.5rem',
-            letterSpacing: '0.02em'
-          }}
-        >
-          {label}
-        </h2>
+    <section id={category} className="menu-section">
+      <div className="sec-head">
+        <span className="sec-ornament">✦</span>
+        <h2 className="sec-title">{label}</h2>
+        <span className="sec-ornament">✦</span>
       </div>
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+      <div className="menu-items-list">
         {items.map((item, index) => (
-          <div
+          <MenuItemComponent
             key={`${item.category_slug}-${item.name}-${index}`}
-            style={{ animationDelay: `${index * 50}ms` }}
-          >
-            <MenuItemComponent item={item} categoryType={categoryType} />
-          </div>
+            item={item}
+            categoryType={categoryType}
+            index={index}
+          />
         ))}
       </div>
     </section>

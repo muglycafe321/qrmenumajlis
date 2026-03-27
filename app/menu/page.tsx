@@ -90,6 +90,30 @@ export default function MenuPage() {
     return () => observer.disconnect()
   }, [categories])
 
+  // Animate menu items on scroll
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const el = entry.target as HTMLElement
+            const index = parseInt(el.getAttribute('data-index') || '0')
+            setTimeout(() => {
+              el.classList.add('visible')
+            }, index * 30)
+            observer.unobserve(el)
+          }
+        })
+      },
+      { rootMargin: '-30px 0px -10% 0px', threshold: 0.05 }
+    )
+
+    const menuItems = document.querySelectorAll('.menu-item')
+    menuItems.forEach((item) => observer.observe(item))
+
+    return () => observer.disconnect()
+  }, [items, categories])
+
   if (isLoading) {
     return (
       <div className="min-h-screen bg-[#0B0A0E] islamic-pattern flex items-center justify-center">
