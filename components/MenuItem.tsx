@@ -38,7 +38,7 @@ export default function MenuItem({ item, categoryType, index = 0 }: MenuItemProp
 
       {/* Price */}
       <span className={`iprice ${isMarketPrice ? 'market' : ''}`}>
-        {isMarketPrice ? 'Market Price' : (
+        {isMarketPrice ? 'Seasonal Price' : (
           <>
             <sup>₹</sup>{item.price}
           </>

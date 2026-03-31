@@ -27,7 +27,7 @@ export default function SpecialOfferBanner({ offers }: SpecialOfferBannerProps) 
               <span className="fc-name">{item.name}</span>
               <span className="fc-price">
                 <sup>₹</sup>{item.price === 0 
-                  ? <span style={{ fontSize: '12px' }}>Market Price</span>
+                  ? <span style={{ fontSize: '12px' }}>Seasonal Price</span>
                   : item.price
                 }
               </span>
