@@ -18,7 +18,7 @@ export default function CategoryNav({ categories, activeCategory, onCategoryClic
             onClick={() => onCategoryClick(category.slug)}
             className={`cat-tab ${activeCategory === category.slug ? 'active' : ''}`}
           >
-            {category.label}
+            {category.label ?? category.slug}
           </button>
         ))}
       </div>
