@@ -1,14 +1,14 @@
 import { SpecialOffer, MenuCategory, MenuItem } from './types'
 
 export const DEFAULT_OFFER: SpecialOffer[] = [
-  { id: 1, name: 'Chicken Mandi', price: 240, sort_order: 1 },
-  { id: 2, name: 'Alfaham Mandi', price: 240, sort_order: 2 },
-  { id: 3, name: 'Peri Peri Mandi', price: 250, sort_order: 3 },
+  { id: 1, name: 'Chicken Mandhi', price: 240, sort_order: 1 },
+  { id: 2, name: 'Alfaham Mandhi', price: 240, sort_order: 2 },
+  { id: 3, name: 'Peri Peri Mandhi', price: 250, sort_order: 3 },
 ]
 
 export const DEFAULT_CATEGORIES: MenuCategory[] = [
   { id: 1, slug: 'rice-biryani', label: 'Rice & Biryani', type: 'nonveg', sort_order: 1 },
-  { id: 2, slug: 'mandi', label: 'Mandi', type: 'nonveg', sort_order: 2 },
+  { id: 2, slug: 'mandhi', label: 'Mandhi', type: 'nonveg', sort_order: 2 },
   { id: 3, slug: 'breads', label: 'Breads', type: 'veg', sort_order: 3 },
   { id: 4, slug: 'snacks', label: 'Snacks', type: 'mixed', sort_order: 4 },
   { id: 5, slug: 'shawarma', label: 'Shawarma', type: 'nonveg', sort_order: 5 },
@@ -46,14 +46,14 @@ export const DEFAULT_ITEMS: MenuItem[] = [
   { category_slug: 'rice-biryani', name: 'Veg Fried Rice', price: 130, type: 'veg', sort_order: 17 },
   { category_slug: 'rice-biryani', name: 'Shezwan Fried Rice', price: 190, type: 'nonveg', sort_order: 18 },
 
-  // MANDI
-  { category_slug: 'mandi', name: 'Mandi Rice', price: 100, type: 'nonveg', sort_order: 1 },
-  { category_slug: 'mandi', name: 'Chicken Mandhi', price: 240, type: 'nonveg', sort_order: 2 },
-  { category_slug: 'mandi', name: 'Alfaham Mandhi', price: 240, type: 'nonveg', sort_order: 3 },
-  { category_slug: 'mandi', name: 'Peri Peri Mandhi', price: 250, type: 'nonveg', sort_order: 4 },
-  { category_slug: 'mandi', name: 'Pepper Mandhi', price: 240, type: 'nonveg', sort_order: 5 },
-  { category_slug: 'mandi', name: 'Honey Alfaham Mandhi', price: 260, type: 'nonveg', sort_order: 6 },
-  { category_slug: 'mandi', name: 'Beef Rib Mandhi', price: 280, type: 'nonveg', sort_order: 7 },
+  // MANDHI
+  { category_slug: 'mandhi', name: 'Mandhi Rice', price: 100, type: 'nonveg', sort_order: 1 },
+  { category_slug: 'mandhi', name: 'Chicken Mandhi', price: 240, type: 'nonveg', sort_order: 2 },
+  { category_slug: 'mandhi', name: 'Alfaham Mandhi', price: 240, type: 'nonveg', sort_order: 3 },
+  { category_slug: 'mandhi', name: 'Peri Peri Mandhi', price: 250, type: 'nonveg', sort_order: 4 },
+  { category_slug: 'mandhi', name: 'Pepper Mandhi', price: 240, type: 'nonveg', sort_order: 5 },
+  { category_slug: 'mandhi', name: 'Honey Alfaham Mandhi', price: 260, type: 'nonveg', sort_order: 6 },
+  { category_slug: 'mandhi', name: 'Beef Rib Mandhi', price: 280, type: 'nonveg', sort_order: 7 },
 
   // BREADS
   { category_slug: 'breads', name: 'Porotta', price: 15, type: 'veg', sort_order: 1 },
