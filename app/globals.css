@@ -991,3 +991,163 @@ html {
 .menu-item:nth-child(even):hover {
   background: rgba(212,168,83,0.08);
 }
+/* ======================================== */
+/* CATEGORY NAV TABS - IMPROVED */
+/* ======================================== */
+
+.cat-nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(11,10,14,0.95);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(212,168,83,0.2);
+  padding: 10px 0;
+  height: auto;
+}
+
+.cat-inner {
+  display: flex;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  padding: 0 14px;
+  gap: 8px;
+  width: 100%;
+}
+
+.cat-inner::-webkit-scrollbar { display: none; }
+
+.cat-tab {
+  flex-shrink: 0;
+  background: rgba(212,168,83,0.06);
+  border: 1px solid rgba(212,168,83,0.15);
+  border-radius: 30px;
+  color: var(--muted);
+  font-family: 'Nunito', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 8px 16px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.25s ease;
+}
+
+.cat-tab.active {
+  background: var(--gold);
+  border-color: var(--gold);
+  color: #0B0A0E;
+  font-weight: 800;
+  box-shadow: 0 4px 16px rgba(212,168,83,0.4);
+  transform: translateY(-1px);
+}
+
+.cat-tab:hover:not(.active) {
+  background: rgba(212,168,83,0.12);
+  border-color: rgba(212,168,83,0.3);
+  color: var(--gold-light);
+}
+
+/* ======================================== */
+/* SECTION TITLES - PREMIUM STYLE */
+/* ======================================== */
+
+.menu-section {
+  padding: 36px 16px 16px;
+  border-bottom: 1px solid rgba(212,168,83,0.07);
+}
+
+.sec-head {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  margin-bottom: 24px;
+  gap: 8px;
+}
+
+/* Decorative top line above title */
+.sec-head::before {
+  content: '';
+  display: block;
+  width: 60px;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--gold), transparent);
+  margin-bottom: 4px;
+}
+
+/* Decorative bottom line below title */
+.sec-head::after {
+  content: '';
+  display: block;
+  width: 40px;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(212,168,83,0.4), transparent);
+  margin-top: 4px;
+}
+
+.sec-ornament {
+  color: var(--gold);
+  font-size: 14px;
+  opacity: 0.6;
+  display: inline-block;
+  margin: 0 10px;
+}
+
+.sec-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 30px;
+  font-weight: 700;
+  font-style: italic;
+  color: var(--gold);
+  letter-spacing: 0.03em;
+  line-height: 1.1;
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+
+/* Category type indicator pill */
+.sec-type-pill {
+  display: inline-block;
+  font-family: 'Nunito', sans-serif;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: 20px;
+  margin-top: 2px;
+}
+
+.sec-type-pill.veg {
+  background: rgba(46,125,50,0.15);
+  border: 1px solid rgba(46,125,50,0.3);
+  color: #66bb6a;
+}
+
+.sec-type-pill.nonveg {
+  background: rgba(183,28,28,0.15);
+  border: 1px solid rgba(183,28,28,0.3);
+  color: #ef5350;
+}
+
+.sec-type-pill.mixed {
+  background: rgba(212,168,83,0.1);
+  border: 1px solid rgba(212,168,83,0.25);
+  color: var(--gold);
+}
+
+/* ======================================== */
+/* SPECIAL OFFER GRID FIX */
+/* ======================================== */
+
+.fc-rows {
+  display: grid !important;
+  grid-template-columns: repeat(3, 1fr) !important;
+  gap: 8px !important;
+}

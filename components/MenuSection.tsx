@@ -11,12 +11,25 @@ interface MenuSectionProps {
 }
 
 export default function MenuSection({ category, label, items, categoryType }: MenuSectionProps) {
+  const getTypeLabel = () => {
+    if (categoryType === 'veg') return '🌿 Veg'
+    if (categoryType === 'nonveg') return '🍖 Non-Veg'
+    return '🍽 Veg & Non-Veg'
+  }
+
   return (
     <section id={category} className="menu-section">
       <div className="sec-head">
-        <span className="sec-ornament">✦</span>
-        <h2 className="sec-title">{label}</h2>
-        <span className="sec-ornament">✦</span>
+        <h2 className="sec-title">
+          <span className="sec-ornament">✦</span>
+          {label}
+          <span className="sec-ornament">✦</span>
+        </h2>
+        {categoryType && (
+          <span className={`sec-type-pill ${categoryType}`}>
+            {getTypeLabel()}
+          </span>
+        )}
       </div>
       <div className="menu-items-list">
         {items.map((item, index) => (
