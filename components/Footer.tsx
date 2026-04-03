@@ -23,6 +23,7 @@ export default function Footer() {
             <h4 className="text-lg font-cormorant font-semibold text-[#EDE3D5] mb-2">Delivery</h4>
             <p className="text-[#8A7F72] text-sm">🛵 Available within 3km radius</p>
             <p className="text-[#8A7F72] text-sm">⏰ Fast & Hot Delivery</p>
+            <p className="text-[#8A7F72] text-sm">💰 Additional Charges Apply for takeaway orders</p>
           </div>
         </div>
 
