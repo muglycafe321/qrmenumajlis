@@ -1,37 +1,25 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { supabase } from '@/lib/supabase'
-import { SpecialOffer, MenuCategory, MenuItem } from '@/lib/types'
-import SpecialOfferPane from './SpecialOfferPane'
+import { MenuCategory, MenuItem } from '@/lib/types'
 import MenuItemsPane from './MenuItemsPane'
-import PreviewModal from './PreviewModal'
 
 interface AdminDrawerProps {
-  offers: SpecialOffer[]
   categories: MenuCategory[]
   items: MenuItem[]
-  onOffersChange: (offers: SpecialOffer[]) => void
   onItemsChange: (items: MenuItem[]) => void
-  onOfferPublish: () => Promise<void>
   onMenuItemsChange: () => Promise<void>
 }
 
 export default function AdminDrawer({
-  offers,
   categories,
   items,
-  onOffersChange,
   onItemsChange,
-  onOfferPublish,
   onMenuItemsChange,
 }: AdminDrawerProps) {
   const [isOpen, setIsOpen] = useState(false)
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [password, setPassword] = useState('')
-  const [activeTab, setActiveTab] = useState<'offer' | 'menu'>('offer')
-  const [showPreview, setShowPreview] = useState(false)
-  const [publishStatus, setPublishStatus] = useState('')
 
   // Check if already authenticated
   useEffect(() => {
@@ -55,24 +43,6 @@ export default function AdminDrawer({
     setIsAuthenticated(false)
     sessionStorage.removeItem('adminAuthenticated')
     setIsOpen(false)
-  }
-
-  const handlePreviewAndPublish = async () => {
-    setShowPreview(true)
-  }
-
-  const handleConfirmPublish = async () => {
-    setPublishStatus('publishing')
-    setShowPreview(false)
-    
-    // Simulate publish delay
-    await new Promise(resolve => setTimeout(resolve, 800))
-    
-    // Refresh parent component data
-    await onOfferPublish()
-    
-    setPublishStatus('success')
-    setTimeout(() => setPublishStatus(''), 2000)
   }
 
   return (
@@ -135,73 +105,15 @@ export default function AdminDrawer({
               </button>
             </div>
           ) : (
-            <>
-              {/* Tabs */}
-              <div className="flex gap-2 mb-6">
-                <button
-                  onClick={() => setActiveTab('offer')}
-                  className={`flex-1 px-4 py-2 rounded-lg font-medium transition-all ${
-                    activeTab === 'offer'
-                      ? 'bg-gradient-to-r from-[#D4A853] to-[#F0C97A] text-[#0B0A0E]'
-                      : 'bg-[#13111A] text-[#EDE3D5] hover:bg-[#1A1824]'
-                  }`}
-                >
-                  🥘 Special Offer
-                </button>
-                <button
-                  onClick={() => setActiveTab('menu')}
-                  className={`flex-1 px-4 py-2 rounded-lg font-medium transition-all ${
-                    activeTab === 'menu'
-                      ? 'bg-gradient-to-r from-[#D4A853] to-[#F0C97A] text-[#0B0A0E]'
-                      : 'bg-[#13111A] text-[#EDE3D5] hover:bg-[#1A1824]'
-                  }`}
-                >
-                  📋 Menu Items
-                </button>
-              </div>
-
-              {/* Tab Content */}
-              {activeTab === 'offer' ? (
-                <SpecialOfferPane
-                  offers={offers}
-                  onOffersChange={onOffersChange}
-                  onPreviewAndPublish={handlePreviewAndPublish}
-                  onOfferRefresh={onOfferPublish}
-                />
-              ) : (
-                <MenuItemsPane
-                  categories={categories}
-                  items={items}
-                  onItemsChange={onItemsChange}
-                  onMenuItemsChange={onMenuItemsChange}
-                />
-              )}
-            </>
+            <MenuItemsPane
+              categories={categories}
+              items={items}
+              onItemsChange={onItemsChange}
+              onMenuItemsChange={onMenuItemsChange}
+            />
           )}
         </div>
-
-        {/* Publish Status */}
-        {publishStatus && (
-          <div className="absolute bottom-6 left-6 right-6">
-            <div className={`px-4 py-3 rounded-lg text-center animate-popIn ${
-              publishStatus === 'success' 
-                ? 'bg-green-900/50 border border-green-700 text-green-300' 
-                : 'bg-[#13111A] border border-[#D4A853] text-[#D4A853]'
-            }`}>
-              {publishStatus === 'success' ? '✓ Published!' : 'Publishing...'}
-            </div>
-          </div>
-        )}
       </div>
-
-      {/* Preview Modal */}
-      {showPreview && (
-        <PreviewModal
-          offers={offers}
-          onClose={() => setShowPreview(false)}
-          onConfirm={handleConfirmPublish}
-        />
-      )}
     </>
   )
 }

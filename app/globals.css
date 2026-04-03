@@ -1189,3 +1189,218 @@ html {
   grid-template-columns: repeat(3, 1fr) !important;
   gap: 8px !important;
 }
+
+/* ======================================== */
+/* HERO HIGHLIGHT SECTION */
+/* ======================================== */
+
+.hero-highlight {
+  position: relative;
+  margin: 0 16px 12px;
+  border-radius: 20px;
+  overflow: hidden;
+  min-height: 280px;
+  display: flex;
+  align-items: flex-end;
+  opacity: 0;
+  animation: up 0.9s ease forwards 0.58s;
+}
+
+.hh-img-wrap {
+  position: absolute;
+  inset: 0;
+}
+
+.hh-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 30%;
+  display: block;
+  transform: scale(1.02);
+  transition: transform 8s ease;
+}
+
+.hero-highlight:hover .hh-img {
+  transform: scale(1.06);
+}
+
+.hh-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(11,10,14,0.97) 0%,
+    rgba(11,10,14,0.75) 40%,
+    rgba(11,10,14,0.3) 70%,
+    rgba(11,10,14,0.15) 100%
+  );
+}
+
+/* Gold shimmer border */
+.hero-highlight::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 20px;
+  border: 1px solid rgba(212,168,83,0.35);
+  z-index: 3;
+  pointer-events: none;
+}
+
+/* Top gold line */
+.hero-highlight::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 10%; right: 10%;
+  height: 2px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    #F0C97A,
+    #D4A853,
+    #F0C97A,
+    transparent
+  );
+  z-index: 4;
+  border-radius: 2px;
+}
+
+.hh-content {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  padding: 20px 18px 22px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 10px;
+}
+
+.hh-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(212,168,83,0.15);
+  border: 1px solid rgba(212,168,83,0.3);
+  border-radius: 30px;
+  padding: 5px 16px;
+  font-family: var(--font-nunito), sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--gold-light);
+}
+
+.hh-badge-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--gold);
+  display: inline-block;
+  animation: badgeDot 1.5s ease-in-out infinite;
+}
+
+.hh-badge-dot:last-child {
+  animation-delay: 0.75s;
+}
+
+@keyframes badgeDot {
+  0%,100% { opacity: 0.4; transform: scale(1); }
+  50%      { opacity: 1;   transform: scale(1.3); }
+}
+
+.hh-title {
+  font-family: var(--font-cormorant), serif;
+  font-size: clamp(26px, 7vw, 36px);
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.15;
+  letter-spacing: 0.02em;
+}
+
+.hh-title-accent {
+  color: var(--gold-light);
+  font-style: italic;
+}
+
+.hh-ornament {
+  font-size: 13px;
+  color: var(--gold);
+  opacity: 0.6;
+  letter-spacing: 0.2em;
+}
+
+/* Dish highlight cards */
+.hh-dishes {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  width: 100%;
+  margin-top: 4px;
+}
+
+.hh-dish {
+  background: rgba(11,10,14,0.7);
+  border: 1px solid rgba(212,168,83,0.2);
+  border-radius: 14px;
+  padding: 12px 6px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  backdrop-filter: blur(8px);
+  transition: background 0.25s, border-color 0.25s, transform 0.2s;
+}
+
+.hh-dish:hover {
+  background: rgba(212,168,83,0.12);
+  border-color: rgba(212,168,83,0.45);
+  transform: translateY(-3px);
+}
+
+/* Center dish is bigger — hero dish */
+.hh-dish-center {
+  background: rgba(212,168,83,0.12);
+  border-color: rgba(212,168,83,0.4);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(212,168,83,0.2);
+}
+
+.hh-dish-center:hover {
+  transform: translateY(-7px);
+}
+
+.hh-dish-icon {
+  font-size: 22px;
+  line-height: 1;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+}
+
+.hh-dish-name {
+  font-family: var(--font-nunito), sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text);
+  text-align: center;
+  line-height: 1.3;
+}
+
+.hh-dish-price {
+  font-family: var(--font-cormorant), serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--gold-light);
+  line-height: 1;
+}
+
+.hh-tagline {
+  font-family: var(--font-cormorant), serif;
+  font-size: 14px;
+  font-style: italic;
+  color: rgba(237,227,213,0.55);
+  letter-spacing: 0.03em;
+  margin-top: 2px;
+}
