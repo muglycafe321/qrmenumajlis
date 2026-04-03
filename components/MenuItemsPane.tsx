@@ -21,52 +21,79 @@ export default function MenuItemsPane({
   const [newItem, setNewItem] = useState({ name: '', price: '', type: 'nonveg' })
 
   const handleAddItem = async () => {
-    if (!newItem.name || !newItem.price || !selectedCategory) return
+    if (!newItem.name || !newItem.price || !selectedCategory) {
+      console.log('[handleAddItem] Missing fields:', { name: newItem.name, price: newItem.price, category: selectedCategory })
+      return
+    }
 
-    const newItemData: MenuItem = {
-      id: Date.now(),
+    // Don't include id - let Supabase auto-generate it
+    const newItemData = {
       category_slug: selectedCategory,
       name: newItem.name,
       price: parseInt(newItem.price),
-      type: newItem.type as 'veg' | 'nonveg',
+      type: newItem.type,
       sort_order: items.filter((i) => i.category_slug === selectedCategory).length + 1,
     }
+
+    console.log('[handleAddItem] Inserting:', newItemData)
 
     const { data, error } = await supabase
       .from('menu_items')
       .insert([newItemData])
       .select()
 
-    if (!error && data) {
+    if (error) {
+      console.error('[handleAddItem] Insert error:', error)
+      alert('Failed to add item: ' + error.message)
+      return
+    }
+
+    console.log('[handleAddItem] Inserted successfully:', data)
+
+    if (data && data.length > 0) {
+      // Update local state immediately
       onItemsChange([...items, ...data])
       setNewItem({ name: '', price: '', type: 'nonveg' })
-      // Refresh parent component
-      if (onMenuItemsChange) await onMenuItemsChange()
+      // Refresh parent component to sync
+      if (onMenuItemsChange) {
+        await onMenuItemsChange()
+      }
     }
   }
 
   const handleDeleteItem = async (id: number) => {
+    console.log('[handleDeleteItem] Deleting item:', id)
     const { error } = await supabase.from('menu_items').delete().eq('id', id)
 
-    if (!error) {
-      onItemsChange(items.filter((i) => i.id !== id))
-      // Refresh parent component
-      if (onMenuItemsChange) await onMenuItemsChange()
+    if (error) {
+      console.error('[handleDeleteItem] Delete error:', error)
+      alert('Failed to delete item: ' + error.message)
+      return
     }
+
+    console.log('[handleDeleteItem] Deleted successfully')
+    onItemsChange(items.filter((i) => i.id !== id))
+    // Refresh parent component
+    if (onMenuItemsChange) await onMenuItemsChange()
   }
 
   const handlePriceChange = async (id: number, newPrice: number) => {
     if (!newPrice) return
+    console.log('[handlePriceChange] Updating price:', id, newPrice)
     const { error } = await supabase
       .from('menu_items')
       .update({ price: newPrice })
       .eq('id', id)
 
-    if (!error) {
-      onItemsChange(items.map((i) => (i.id === id ? { ...i, price: newPrice } : i)))
-      // Refresh parent component
-      if (onMenuItemsChange) await onMenuItemsChange()
+    if (error) {
+      console.error('[handlePriceChange] Update error:', error)
+      return
     }
+
+    console.log('[handlePriceChange] Updated successfully')
+    onItemsChange(items.map((i) => (i.id === id ? { ...i, price: newPrice } : i)))
+    // Refresh parent component
+    if (onMenuItemsChange) await onMenuItemsChange()
   }
 
   const filteredItems = items.filter((i) => i.category_slug === selectedCategory)
