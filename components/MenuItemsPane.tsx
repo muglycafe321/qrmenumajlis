@@ -8,12 +8,14 @@ interface MenuItemsPaneProps {
   categories: MenuCategory[]
   items: MenuItem[]
   onItemsChange: (items: MenuItem[]) => void
+  onMenuItemsChange?: () => Promise<void>
 }
 
 export default function MenuItemsPane({
   categories,
   items,
   onItemsChange,
+  onMenuItemsChange,
 }: MenuItemsPaneProps) {
   const [selectedCategory, setSelectedCategory] = useState(categories[0]?.slug || '')
   const [newItem, setNewItem] = useState({ name: '', price: '', type: 'nonveg' })
@@ -38,6 +40,8 @@ export default function MenuItemsPane({
     if (!error && data) {
       onItemsChange([...items, ...data])
       setNewItem({ name: '', price: '', type: 'nonveg' })
+      // Refresh parent component
+      if (onMenuItemsChange) await onMenuItemsChange()
     }
   }
 
@@ -46,6 +50,8 @@ export default function MenuItemsPane({
 
     if (!error) {
       onItemsChange(items.filter((i) => i.id !== id))
+      // Refresh parent component
+      if (onMenuItemsChange) await onMenuItemsChange()
     }
   }
 
@@ -58,6 +64,8 @@ export default function MenuItemsPane({
 
     if (!error) {
       onItemsChange(items.map((i) => (i.id === id ? { ...i, price: newPrice } : i)))
+      // Refresh parent component
+      if (onMenuItemsChange) await onMenuItemsChange()
     }
   }
 

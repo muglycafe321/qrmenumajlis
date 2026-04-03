@@ -13,6 +13,8 @@ interface AdminDrawerProps {
   items: MenuItem[]
   onOffersChange: (offers: SpecialOffer[]) => void
   onItemsChange: (items: MenuItem[]) => void
+  onOfferPublish: () => Promise<void>
+  onMenuItemsChange: () => Promise<void>
 }
 
 export default function AdminDrawer({
@@ -21,6 +23,8 @@ export default function AdminDrawer({
   items,
   onOffersChange,
   onItemsChange,
+  onOfferPublish,
+  onMenuItemsChange,
 }: AdminDrawerProps) {
   const [isOpen, setIsOpen] = useState(false)
   const [isAuthenticated, setIsAuthenticated] = useState(false)
@@ -63,6 +67,9 @@ export default function AdminDrawer({
     
     // Simulate publish delay
     await new Promise(resolve => setTimeout(resolve, 800))
+    
+    // Refresh parent component data
+    await onOfferPublish()
     
     setPublishStatus('success')
     setTimeout(() => setPublishStatus(''), 2000)
@@ -165,6 +172,7 @@ export default function AdminDrawer({
                   categories={categories}
                   items={items}
                   onItemsChange={onItemsChange}
+                  onMenuItemsChange={onMenuItemsChange}
                 />
               )}
             </>

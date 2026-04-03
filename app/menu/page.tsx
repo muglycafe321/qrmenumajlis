@@ -15,10 +15,42 @@ export default function MenuPage() {
   const [offers, setOffers] = useState<SpecialOffer[]>(DEFAULT_OFFER)
   const [categories, setCategories] = useState<MenuCategory[]>(DEFAULT_CATEGORIES)
   const [items, setItems] = useState<MenuItem[]>(DEFAULT_ITEMS)
-  const [activeCategory, setActiveCategory] = useState('mandi')
+  const [activeCategory, setActiveCategory] = useState('mandhi')
   const [isLoading, setIsLoading] = useState(true)
 
-  // Fetch data from Supabase
+  // Fetch offers only
+  const fetchOffers = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('special_offer')
+        .select('*')
+        .order('sort_order', { ascending: true })
+      if (error) throw error
+      if (data && data.length > 0) {
+        setOffers(data)
+      }
+    } catch (err) {
+      console.error('Offer fetch error:', err)
+    }
+  }
+
+  // Fetch menu items only
+  const fetchMenuItems = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('menu_items')
+        .select('*')
+        .order('sort_order', { ascending: true })
+      if (error) throw error
+      if (data) {
+        setItems(data)
+      }
+    } catch (err) {
+      console.error('Menu items fetch error:', err)
+    }
+  }
+
+  // Fetch all data from Supabase
   useEffect(() => {
     async function fetchData() {
       try {
@@ -53,6 +85,45 @@ export default function MenuPage() {
     }
 
     fetchData()
+
+    // Listen for realtime changes to special_offer table
+    const offerChannel = supabase
+      .channel('special-offer-changes')
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'special_offer',
+        },
+        (payload) => {
+          console.log('Offer changed:', payload)
+          fetchOffers()
+        }
+      )
+      .subscribe()
+
+    // Listen for realtime changes to menu_items table
+    const menuChannel = supabase
+      .channel('menu-items-changes')
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'menu_items',
+        },
+        (payload) => {
+          console.log('Menu item changed:', payload)
+          fetchMenuItems()
+        }
+      )
+      .subscribe()
+
+    return () => {
+      supabase.removeChannel(offerChannel)
+      supabase.removeChannel(menuChannel)
+    }
   }, [])
 
   // Group items by category
@@ -171,6 +242,8 @@ export default function MenuPage() {
         items={items}
         onOffersChange={setOffers}
         onItemsChange={setItems}
+        onOfferPublish={fetchOffers}
+        onMenuItemsChange={fetchMenuItems}
       />
     </div>
   )
