@@ -166,6 +166,7 @@ export default function AdminDrawer({
                   offers={offers}
                   onOffersChange={onOffersChange}
                   onPreviewAndPublish={handlePreviewAndPublish}
+                  onOfferRefresh={onOfferPublish}
                 />
               ) : (
                 <MenuItemsPane

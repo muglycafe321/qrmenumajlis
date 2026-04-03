@@ -8,12 +8,14 @@ interface SpecialOfferPaneProps {
   offers: SpecialOffer[]
   onOffersChange: (offers: SpecialOffer[]) => void
   onPreviewAndPublish: () => void
+  onOfferRefresh?: () => Promise<void>
 }
 
 export default function SpecialOfferPane({
   offers,
   onOffersChange,
   onPreviewAndPublish,
+  onOfferRefresh,
 }: SpecialOfferPaneProps) {
   const [newItem, setNewItem] = useState({ name: '', price: '' })
 
@@ -36,6 +38,8 @@ export default function SpecialOfferPane({
     if (!error && data) {
       onOffersChange([...offers, ...data])
       setNewItem({ name: '', price: '' })
+      // Refresh from Supabase to ensure sync
+      if (onOfferRefresh) await onOfferRefresh()
     }
   }
 
@@ -44,6 +48,8 @@ export default function SpecialOfferPane({
 
     if (!error) {
       onOffersChange(offers.filter((o) => o.id !== id))
+      // Refresh from Supabase to ensure sync
+      if (onOfferRefresh) await onOfferRefresh()
     }
   }
 
@@ -55,6 +61,8 @@ export default function SpecialOfferPane({
 
     if (!error) {
       onOffersChange(offers.map((o) => (o.id === id ? { ...o, price: newPrice } : o)))
+      // Refresh from Supabase to ensure sync
+      if (onOfferRefresh) await onOfferRefresh()
     }
   }
 

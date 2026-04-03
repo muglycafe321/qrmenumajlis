@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { supabase } from '@/lib/supabase'
 import { SpecialOffer, MenuCategory, MenuItem } from '@/lib/types'
 import { DEFAULT_OFFER, DEFAULT_CATEGORIES, DEFAULT_ITEMS } from '@/lib/defaults'
@@ -18,77 +18,70 @@ export default function MenuPage() {
   const [activeCategory, setActiveCategory] = useState('mandhi')
   const [isLoading, setIsLoading] = useState(true)
 
-  // Fetch offers only
-  const fetchOffers = async () => {
+  // ── Fetch offers only (useCallback for stable reference) ──
+  const fetchOffers = useCallback(async () => {
     try {
+      console.log('[fetchOffers] Fetching special offers...')
       const { data, error } = await supabase
         .from('special_offer')
         .select('*')
         .order('sort_order', { ascending: true })
       if (error) throw error
       if (data && data.length > 0) {
+        console.log('[fetchOffers] Got data:', data)
         setOffers(data)
       }
     } catch (err) {
-      console.error('Offer fetch error:', err)
+      console.error('[fetchOffers] Error:', err)
     }
-  }
+  }, [])
 
-  // Fetch menu items only
-  const fetchMenuItems = async () => {
+  // ── Fetch categories only ──
+  const fetchCategories = useCallback(async () => {
     try {
+      const { data, error } = await supabase
+        .from('menu_categories')
+        .select('*')
+        .order('sort_order', { ascending: true })
+      if (error) throw error
+      if (data) setCategories(data)
+    } catch (err) {
+      console.error('[fetchCategories] Error:', err)
+    }
+  }, [])
+
+  // ── Fetch menu items only ──
+  const fetchMenuItems = useCallback(async () => {
+    try {
+      console.log('[fetchMenuItems] Fetching menu items...')
       const { data, error } = await supabase
         .from('menu_items')
         .select('*')
         .order('sort_order', { ascending: true })
       if (error) throw error
       if (data) {
+        console.log('[fetchMenuItems] Got items:', data.length)
         setItems(data)
       }
     } catch (err) {
-      console.error('Menu items fetch error:', err)
+      console.error('[fetchMenuItems] Error:', err)
     }
-  }
+  }, [])
 
-  // Fetch all data from Supabase
+  // ── Fetch all on mount ──
+  const fetchAll = useCallback(async () => {
+    setIsLoading(true)
+    await Promise.all([fetchOffers(), fetchCategories(), fetchMenuItems()])
+    setIsLoading(false)
+  }, [fetchOffers, fetchCategories, fetchMenuItems])
+
+  // ── Initial fetch + realtime listeners ──
   useEffect(() => {
-    async function fetchData() {
-      try {
-        // Fetch offers
-        const { data: offersData, error: offersError } = await supabase
-          .from('special_offer')
-          .select('*')
-          .order('sort_order', { ascending: true })
+    fetchAll()
 
-        // Fetch categories
-        const { data: categoriesData, error: categoriesError } = await supabase
-          .from('menu_categories')
-          .select('*')
-          .order('sort_order', { ascending: true })
-
-        // Fetch items
-        const { data: itemsData, error: itemsError } = await supabase
-          .from('menu_items')
-          .select('*')
-          .order('sort_order', { ascending: true })
-
-        // Update state with fetched data (fallback to defaults on error)
-        if (!offersError && offersData) setOffers(offersData)
-        if (!categoriesError && categoriesData) setCategories(categoriesData)
-        if (!itemsError && itemsData) setItems(itemsData)
-      } catch (error) {
-        console.error('Error fetching data:', error)
-        // Silently fall back to defaults
-      } finally {
-        setIsLoading(false)
-      }
-    }
-
-    fetchData()
-
-    // Listen for realtime changes to special_offer table
+    // Listen to special_offer changes
     const offerChannel = supabase
-      .channel('special-offer-changes')
+      .channel('realtime-offer')
       .on(
         'postgres_changes',
         {
@@ -96,16 +89,18 @@ export default function MenuPage() {
           schema: 'public',
           table: 'special_offer',
         },
-        (payload) => {
-          console.log('Offer changed:', payload)
-          fetchOffers()
+        async (payload) => {
+          console.log('[Realtime] special_offer changed:', payload.eventType, payload)
+          await fetchOffers()
         }
       )
-      .subscribe()
+      .subscribe((status) => {
+        console.log('[Realtime] offer channel status:', status)
+      })
 
-    // Listen for realtime changes to menu_items table
+    // Listen to menu_items changes
     const menuChannel = supabase
-      .channel('menu-items-changes')
+      .channel('realtime-menu')
       .on(
         'postgres_changes',
         {
@@ -113,18 +108,21 @@ export default function MenuPage() {
           schema: 'public',
           table: 'menu_items',
         },
-        (payload) => {
-          console.log('Menu item changed:', payload)
-          fetchMenuItems()
+        async (payload) => {
+          console.log('[Realtime] menu_items changed:', payload.eventType, payload)
+          await fetchMenuItems()
         }
       )
-      .subscribe()
+      .subscribe((status) => {
+        console.log('[Realtime] menu channel status:', status)
+      })
 
+    // Cleanup on unmount
     return () => {
       supabase.removeChannel(offerChannel)
       supabase.removeChannel(menuChannel)
     }
-  }, [])
+  }, [fetchAll, fetchOffers, fetchMenuItems])
 
   // Group items by category
   const getItemsByCategory = (categorySlug: string) => {
